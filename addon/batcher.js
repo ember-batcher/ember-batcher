@@ -1,35 +1,36 @@
 import { join } from '@ember/runloop';
+
+let _running = false;
+const _reads = [];
+const _writes = [];
 const rAF = (typeof window === 'object') && typeof window.requestAnimationFrame === 'function' ? window.requestAnimationFrame : (callback) => setTimeout(callback);
 
-export default {
-  reads: [],
-  writes: [],
-  running: false,
-  scheduleRead(callback) {
-    this.reads.unshift(callback);
-    this.run();
-  },
-  scheduleWrite(callback) {
-    this.writes.unshift(callback)
-    this.run();
-  },
-  run() {
-    if (!this.running) {
-      this.running = true;
-      rAF(() => {
-        join(() => {
-          for (let i = 0, rlen = this.reads.length; i < rlen; i++) {
-            this.reads.pop()();
-          }
-          for (let i = 0, wlen = this.writes.length; i < wlen; i++) {
-            this.writes.pop()();
-          }
-          this.running = false;
-          if (this.writes.length > 0 || this.reads.length > 0) {
-            this.run();
-          }
-        });
+export function scheduleRead(cb) {
+  _reads.unshift(cb);
+  _run();
+}
+
+export function scheduleWrite(cb) {
+  _writes.unshift(cb);
+  _run();
+}
+
+function _run() {
+  if (!_running) {
+    _running = true;
+    rAF(() => {
+      join(() => {
+        for (let i = 0, rlen = _reads.length; i < rlen; i++) {
+          _reads.pop()();
+        }
+        for (let i = 0, wlen = _writes.length; i < wlen; i++) {
+          _writes.pop()();
+        }
+        _running = false;
+        if (_writes.length > 0 || _reads.length > 0) {
+          _run();
+        }
       });
-    }
+    });
   }
-};
+}
