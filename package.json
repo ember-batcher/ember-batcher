@@ -19,9 +19,7 @@
   "license": "MIT",
   "author": "CWF",
   "dependencies": {
-    "ember-cli-babel": "^6.14.1",
-    "ember-sinon": "^2.1.0",
-    "rsvp": "^4.8.2"
+    "ember-cli-babel": "^6.14.1"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.7.0",
