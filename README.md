@@ -1,4 +1,4 @@
-# ember-batcher [![Build Status](https://travis-ci.org/lynchbomb/ember-batcher.svg?branch=master)](https://travis-ci.org/lynchbomb/ember-batcher) [![npm version](https://badge.fury.io/js/ember-batcher.svg)](https://www.npmjs.com/package/ember-batcher)
+# ember-batcher [![Build Status](https://travis-ci.org/lynchbomb/ember-batcher.svg?branch=master)](https://travis-ci.org/lynchbomb/ember-batcher) [![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.0.0&x2=0)](https://www.npmjs.com/package/ember-batcher)
 
 Ember addon to batch reads and writes within `requestAnimationFrame` and [Backburner#join](https://github.com/BackburnerJS/backburner.js/blob/3e4b3561acddd9d8cbbef9a751ba778b4acb1fbf/lib/index.ts#L322-L343) [(Ember's Run Loop)](https://guides.emberjs.com/release/applications/run-loop/).
 
