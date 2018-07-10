@@ -1,16 +1,10 @@
-import Service from '@ember/service';
 import { join } from '@ember/runloop';
 const rAF = (typeof window === 'object') && typeof window.requestAnimationFrame === 'function' ? window.requestAnimationFrame : (callback) => setTimeout(callback);
 
-export default Service.extend({
-  reads: null,
-  writes: null,
+export default {
+  reads: [],
+  writes: [],
   running: false,
-  init() {
-    this._super(...arguments);
-    this.reads = [];
-    this.writes = [];
-  },
   scheduleRead(callback) {
     this.reads.unshift(callback);
     this.run();
@@ -38,4 +32,4 @@ export default Service.extend({
       });
     }
   }
-});
+};

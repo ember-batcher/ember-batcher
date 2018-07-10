@@ -15,22 +15,22 @@ module.exports = {
     browser: true
   },
   rules: {
-    'no-console': 'off'
   },
   overrides: [
     // node files
     {
       files: [
-        'index.js',
-        'prepublish.js',
-        'testem.js',
         'ember-cli-build.js',
+        'index.js',
+        'testem.js',
+        'blueprints/*/index.js',
         'config/**/*.js',
         'tests/dummy/config/**/*.js'
       ],
       excludedFiles: [
-        'app/**',
         'addon/**',
+        'addon-test-support/**',
+        'app/**',
         'tests/dummy/app/**'
       ],
       parserOptions: {
