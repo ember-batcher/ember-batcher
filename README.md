@@ -21,19 +21,19 @@ export default Component.extend({
 });
 ```
 
-#### `scheduleWrite(callback)`
+#### `scheduleWork(callback)`
 
-Register a callback method that will get batched with other "writes" and before other "reads". The method will be called on the next `requestAnimationFrame`. The method will be executed within either the current run loop or will create a new run loop if necessary.
+Register a callback method that will get batched with other "work" and before other "reads". The method will be called on the next `requestAnimationFrame`. The method will be executed within either the current run loop or will create a new run loop if necessary.
 
 ```JavaScript
 import Component from '@ember/component';
 import {
-  scheduleWrite
+  scheduleWork
 } from 'ember-batcher/batcher';
 
 export default Component.extend({
   foo() {
-    scheduleWrite(() => {
+    scheduleWork(() => {
       // write work
     });
   }

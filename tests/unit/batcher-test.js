@@ -8,9 +8,9 @@ module('Unit | Reads/Writes | Batcher', function() {
     assert.ok(typeof batcher.scheduleRead === 'function', 'scheduleRead returns a function');
   });
 
-  test('it inits scheduleWrite', function(assert) {
+  test('it inits scheduleWork', function(assert) {
     assert.expect(1);
-    assert.ok(typeof batcher.scheduleWrite === 'function', 'scheduleWrite returns a function');
+    assert.ok(typeof batcher.scheduleWork === 'function', 'scheduleWork returns a function');
   });
 
   test('it runs reads', async function(assert) {
@@ -34,11 +34,11 @@ module('Unit | Reads/Writes | Batcher', function() {
     
     assert.expect(2);
 
-    await batcher.scheduleWrite(() => {
+    await batcher.scheduleWork(() => {
       assert.equal(++step, 1, '1');
     });
 
-    await batcher.scheduleWrite(() => {
+    await batcher.scheduleWork(() => {
       assert.equal(++step, 2, '2');
     });
 
@@ -51,7 +51,7 @@ module('Unit | Reads/Writes | Batcher', function() {
 
     assert.expect(2);
 
-    await batcher.scheduleWrite(() => {
+    await batcher.scheduleWork(() => {
       assert.equal(++step, 2, '2');
       done();
     });
@@ -70,7 +70,7 @@ module('Unit | Reads/Writes | Batcher', function() {
 
     assert.expect(10);
 
-    await batcher.scheduleWrite(() => {
+    await batcher.scheduleWork(() => {
       assert.equal(++writes, 1, '1');
       assert.equal(++step, 3, '3');
       done();
@@ -82,7 +82,7 @@ module('Unit | Reads/Writes | Batcher', function() {
       done();
     });
 
-    await batcher.scheduleWrite(() => {
+    await batcher.scheduleWork(() => {
       assert.equal(++writes, 2, '2');
       assert.equal(++step, 4, '4');
       done();
@@ -94,7 +94,7 @@ module('Unit | Reads/Writes | Batcher', function() {
       done();
     });
 
-    await batcher.scheduleWrite(() => {
+    await batcher.scheduleWork(() => {
       assert.equal(++writes, 3, '3');
       assert.equal(++step, 5, '5');
       done();
