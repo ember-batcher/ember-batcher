@@ -1,5 +1,12 @@
 import { join } from '@ember/runloop';
-const rAF = (typeof window === 'object') && typeof window.requestAnimationFrame === 'function' ? window.requestAnimationFrame : (callback) => setTimeout(callback);
+import { buildWaiter } from 'ember-test-waiters';
+
+const rAF =
+  typeof window === 'object' &&
+  typeof window.requestAnimationFrame === 'function'
+    ? window.requestAnimationFrame
+    : callback => setTimeout(callback);
+const waiter = buildWaiter('ember-batcher waiter');
 
 export default {
   reads: [],
@@ -15,7 +22,9 @@ export default {
   },
   run() {
     if (!this.running) {
+      let token = waiter.beginAsync();
       this.running = true;
+
       rAF(() => {
         join(() => {
           for (let i = 0, rlen = this.reads.length; i < rlen; i++) {
@@ -28,8 +37,10 @@ export default {
           if (this.work.length > 0 || this.reads.length > 0) {
             this.run();
           }
+
+          waiter.endAsync(token);
         });
       });
     }
-  }
+  },
 };
