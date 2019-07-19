@@ -8,39 +8,41 @@ const rAF =
     : callback => setTimeout(callback);
 const waiter = buildWaiter('ember-batcher waiter');
 
-export default {
-  reads: [],
-  work: [],
-  running: false,
-  scheduleRead(callback) {
-    this.reads.unshift(callback);
-    this.run();
-  },
-  scheduleWork(callback) {
-    this.work.unshift(callback);
-    this.run();
-  },
-  run() {
-    if (!this.running) {
-      let token = waiter.beginAsync();
-      this.running = true;
+const reads = [];
+const work = [];
+let running = false;
 
-      rAF(() => {
-        join(() => {
-          for (let i = 0, rlen = this.reads.length; i < rlen; i++) {
-            this.reads.pop()();
-          }
-          for (let i = 0, wlen = this.work.length; i < wlen; i++) {
-            this.work.pop()();
-          }
-          this.running = false;
-          if (this.work.length > 0 || this.reads.length > 0) {
-            this.run();
-          }
+function run() {
+  if (!running) {
+    let token = waiter.beginAsync();
+    running = true;
 
-          waiter.endAsync(token);
-        });
+    rAF(() => {
+      join(() => {
+        for (let i = 0, rlen = reads.length; i < rlen; i++) {
+          reads.pop()();
+        }
+        for (let i = 0, wlen = work.length; i < wlen; i++) {
+          work.pop()();
+        }
+
+        running = false;
+
+        if (work.length > 0 || reads.length > 0) {
+          run();
+        }
+
+        waiter.endAsync(token);
       });
-    }
-  },
-};
+    });
+  }
+}
+
+export function scheduleRead(callback) {
+  reads.unshift(callback);
+  run();
+}
+export function scheduleWork(callback) {
+  work.unshift(callback);
+  run();
+}
