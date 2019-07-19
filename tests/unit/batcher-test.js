@@ -3,106 +3,85 @@ import { settled } from '@ember/test-helpers';
 import { scheduleRead, scheduleWork } from 'ember-batcher';
 
 module('Unit | Reads/Writes | Batcher', function() {
-  test('it inits scheduleRead', async function(assert) {
-    assert.expect(1);
-    assert.ok(
-      typeof scheduleRead === 'function',
-      'scheduleRead returns a function'
-    );
-
-    await settled();
-  });
-
-  test('it inits scheduleWork', async function(assert) {
-    assert.expect(1);
-    assert.ok(
-      typeof scheduleWork === 'function',
-      'scheduleWork returns a function'
-    );
-
-    await settled();
-  });
-
   test('it runs reads', async function(assert) {
-    let step = 0;
-
-    assert.expect(2);
+    assert.expect(3);
 
     scheduleRead(() => {
-      assert.equal(++step, 1, '1');
+      assert.step('First read');
     });
 
     scheduleRead(() => {
-      assert.equal(++step, 2, '2');
+      assert.step('Second read');
     });
 
     await settled();
+
+    assert.verifySteps(['First read', 'Second read']);
   });
 
   test('it runs writes', async function(assert) {
-    let step = 0;
-
-    assert.expect(2);
+    assert.expect(3);
 
     scheduleWork(() => {
-      assert.equal(++step, 1, '1');
+      assert.step('First work');
     });
 
     scheduleWork(() => {
-      assert.equal(++step, 2, '2');
+      assert.step('Second work');
     });
 
     await settled();
+
+    assert.verifySteps(['First work', 'Second work']);
   });
 
   test('it runs reads before writes', async function(assert) {
-    let step = 0;
-
-    assert.expect(2);
+    assert.expect(3);
 
     scheduleWork(() => {
-      assert.equal(++step, 2, '2');
+      assert.step('Second work');
     });
 
     scheduleRead(() => {
-      assert.equal(++step, 1, '1');
+      assert.step('First read');
     });
 
     await settled();
+
+    assert.verifySteps(['First read', 'Second work']);
   });
 
   test('it can batch reads and writes', async function(assert) {
-    let step = 0;
-    let reads = 0;
-    let writes = 0;
-
-    assert.expect(10);
+    assert.expect(6);
 
     scheduleWork(() => {
-      assert.equal(++writes, 1, '1');
-      assert.equal(++step, 3, '3');
+      assert.step('First write');
     });
 
     scheduleRead(() => {
-      assert.equal(++reads, 1, '1');
-      assert.equal(++step, 1, '1');
+      assert.step('First read');
     });
 
     scheduleWork(() => {
-      assert.equal(++writes, 2, '2');
-      assert.equal(++step, 4, '4');
+      assert.step('Second write');
     });
 
     scheduleRead(() => {
-      assert.equal(++reads, 2, '2');
-      assert.equal(++step, 2, '2');
+      assert.step('Second read');
     });
 
     scheduleWork(() => {
-      assert.equal(++writes, 3, '3');
-      assert.equal(++step, 5, '5');
+      assert.step('Third write');
     });
 
     await settled();
+
+    assert.verifySteps([
+      'First read',
+      'Second read',
+      'First write',
+      'Second write',
+      'Third write',
+    ]);
   });
 });

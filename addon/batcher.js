@@ -19,10 +19,12 @@ function run() {
 
     rAF(() => {
       join(() => {
-        for (let i = 0, rlen = reads.length; i < rlen; i++) {
+        let i, l;
+
+        for (i = 0, l = reads.length; i < l; i++) {
           reads.pop()();
         }
-        for (let i = 0, wlen = work.length; i < wlen; i++) {
+        for (i = 0, l = work.length; i < l; i++) {
           work.pop()();
         }
 
