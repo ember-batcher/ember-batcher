@@ -45,11 +45,11 @@ function run(): void {
   }
 }
 
-export function scheduleRead(callback: Function): void {
+export function readDOM(callback: Function): void {
   reads.unshift(callback);
   run();
 }
-export function scheduleWork(callback: Function): void {
+export function mutateDOM(callback: Function): void {
   mutations.unshift(callback);
   run();
 }

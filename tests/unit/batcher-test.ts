@@ -1,16 +1,16 @@
 import { module, test } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
-import { scheduleRead, scheduleWork } from 'ember-batcher';
+import { readDOM, mutateDOM } from 'ember-batcher';
 
 module('Unit | Reads/Writes | Batcher', function() {
-  test('it runs reads', async function(assert) {
+  test('it runs reads', async function(assert: Assert) {
     assert.expect(3);
 
-    scheduleRead(() => {
+    readDOM(() => {
       assert.step('First read');
     });
 
-    scheduleRead(() => {
+    readDOM(() => {
       assert.step('Second read');
     });
 
@@ -19,14 +19,14 @@ module('Unit | Reads/Writes | Batcher', function() {
     assert.verifySteps(['First read', 'Second read']);
   });
 
-  test('it runs writes', async function(assert) {
+  test('it runs writes', async function(assert: Assert) {
     assert.expect(3);
 
-    scheduleWork(() => {
+    mutateDOM(() => {
       assert.step('First work');
     });
 
-    scheduleWork(() => {
+    mutateDOM(() => {
       assert.step('Second work');
     });
 
@@ -35,14 +35,14 @@ module('Unit | Reads/Writes | Batcher', function() {
     assert.verifySteps(['First work', 'Second work']);
   });
 
-  test('it runs reads before writes', async function(assert) {
+  test('it runs reads before writes', async function(assert: Assert) {
     assert.expect(3);
 
-    scheduleWork(() => {
+    mutateDOM(() => {
       assert.step('Second work');
     });
 
-    scheduleRead(() => {
+    readDOM(() => {
       assert.step('First read');
     });
 
@@ -51,26 +51,26 @@ module('Unit | Reads/Writes | Batcher', function() {
     assert.verifySteps(['First read', 'Second work']);
   });
 
-  test('it can batch reads and writes', async function(assert) {
+  test('it can batch reads and writes', async function(assert: Assert) {
     assert.expect(6);
 
-    scheduleWork(() => {
+    mutateDOM(() => {
       assert.step('First write');
     });
 
-    scheduleRead(() => {
+    readDOM(() => {
       assert.step('First read');
     });
 
-    scheduleWork(() => {
+    mutateDOM(() => {
       assert.step('Second write');
     });
 
-    scheduleRead(() => {
+    readDOM(() => {
       assert.step('Second read');
     });
 
-    scheduleWork(() => {
+    mutateDOM(() => {
       assert.step('Third write');
     });
 

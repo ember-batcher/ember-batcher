@@ -1,1 +1,1 @@
-export { scheduleRead, scheduleWork } from './batcher';
+export { readDOM, mutateDOM } from './batcher';
