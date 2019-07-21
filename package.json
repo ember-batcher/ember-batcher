@@ -20,7 +20,7 @@
   "scripts": {
     "build": "ember build",
     "lint:hbs": "ember-template-lint .",
-    "lint:js": "eslint --ext ts,js .",
+    "lint": "eslint --ext ts,js .",
     "lint:ts": "tsc -p tsconfig.json --noEmit",
     "start": "ember serve",
     "test": "ember test",
