@@ -4,7 +4,7 @@
 
 An Ember addon to batch DOM reads and mutations using `requestAnimationFrame` and [Backburner#join](https://github.com/BackburnerJS/backburner.js/blob/3e4b3561acddd9d8cbbef9a751ba778b4acb1fbf/lib/index.ts#L322-L343) [(Ember's Run Loop)](https://guides.emberjs.com/release/applications/run-loop/).
 
-As noted in Paul Irish's [What Forces Layout](https://gist.github.com/paulirish/5d52fb081b3570c81e3a), a number of properties or methods, when requested/called, will trigger the browser to sychronously calculate the style and layout. This is also called reflow or layout thrashing, and is common performance bottleneck. This addon attempts to provide a mechanism to compliment Ember's runloop batching to help minimize layout thrashing.
+As noted in Paul Irish's "[What Forces Layout](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)", a number of properties or methods, when requested/called, will trigger the browser to sychronously calculate the style and layout. This is also called reflow or layout thrashing, and is common performance bottleneck. This addon attempts to provide a mechanism to compliment Ember's runloop batching to help minimize layout thrashing.
 
 ## Compatibility
 
