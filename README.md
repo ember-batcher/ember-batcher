@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/lynchbomb/ember-batcher.svg?branch=master)](https://travis-ci.org/lynchbomb/ember-batcher) [![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.0.0&x2=0)](https://www.npmjs.com/package/ember-batcher)
 
-Ember addon to batch reads and writes using `requestAnimationFrame` and [Backburner#join](https://github.com/BackburnerJS/backburner.js/blob/3e4b3561acddd9d8cbbef9a751ba778b4acb1fbf/lib/index.ts#L322-L343) [(Ember's Run Loop)](https://guides.emberjs.com/release/applications/run-loop/).
+An Ember addon to batch DOM reads and mutations using `requestAnimationFrame` and [Backburner#join](https://github.com/BackburnerJS/backburner.js/blob/3e4b3561acddd9d8cbbef9a751ba778b4acb1fbf/lib/index.ts#L322-L343) [(Ember's Run Loop)](https://guides.emberjs.com/release/applications/run-loop/).
+
+As noted in Paul Irish's "[What Forces Layout](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)", a number of properties or methods, when requested/called, will trigger the browser to sychronously calculate the style and layout. This is also called reflow or layout thrashing, and is common performance bottleneck. This addon attempts to provide a mechanism to compliment Ember's runloop batching to help minimize layout thrashing.
 
 ## Compatibility
 
@@ -12,47 +14,43 @@ Ember addon to batch reads and writes using `requestAnimationFrame` and [Backbur
 
 ## Installation
 
-```
+```bash
 ember install ember-batcher
 ```
 
 ## Usage
 
-#### `scheduleRead(callback)`
+### `readDOM(callback)`
 
-Register a callback method that will get batched with other "reads" and called on the next `requestAnimationFrame`. The method will be executed within either the current run loop or will create a new run loop if necessary.
+Register a task function that will get batched with other "reads" and called on the next `requestAnimationFrame` (if supported). The method will be executed within either the current run loop or will create a new run loop if necessary.
 
-```JavaScript
+```js
 import Component from '@ember/component';
-import {
-  scheduleRead
-} from 'ember-batcher/batcher';
+import { readDOM } from 'ember-batcher';
 
-export default Component.extend({
+export default MyComponent extends Component {
   foo() {
-    scheduleRead(() => {
-      // read work
+    readDOM(() => {
+      // Perform DOM read
     });
   }
 });
 ```
 
-#### `scheduleWork(callback)`
+### `mutateDOM(callback)`
 
-Register a callback method that will get batched with other "work" and before other "reads". The method will be called on the next `requestAnimationFrame`. The method will be executed within either the current run loop or will create a new run loop if necessary.
+Register a task function that will get batched with other "mutations" and before other "reads". The method will be called on the next `requestAnimationFrame` (if supported). The method will be executed within either the current run loop or will create a new run loop if necessary.
 
-```JavaScript
+```js
 import Component from '@ember/component';
-import {
-  scheduleWork
-} from 'ember-batcher/batcher';
+import { mutateDOM } from 'ember-batcher';
 
 export default Component.extend({
   foo() {
-    scheduleWork(() => {
-      // write work
+    mutateDOM(() => {
+      // Perform DOM mutation
     });
-  }
+  },
 });
 ```
 
