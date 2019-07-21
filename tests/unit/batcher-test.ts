@@ -1,8 +1,8 @@
 import { module, test } from 'ember-qunit';
-import { settled } from '@ember/test-helpers';
+import { domBatchingSettled } from 'ember-batcher/test-support';
 import { readDOM, mutateDOM } from 'ember-batcher';
 
-module('Unit | Reads/Writes | Batcher', function() {
+module('Unit | Batcher', function() {
   test('it runs reads', async function(assert: Assert) {
     assert.expect(3);
 
@@ -14,7 +14,7 @@ module('Unit | Reads/Writes | Batcher', function() {
       assert.step('Second read');
     });
 
-    await settled();
+    await domBatchingSettled();
 
     assert.verifySteps(['First read', 'Second read']);
   });
@@ -30,7 +30,7 @@ module('Unit | Reads/Writes | Batcher', function() {
       assert.step('Second work');
     });
 
-    await settled();
+    await domBatchingSettled();
 
     assert.verifySteps(['First work', 'Second work']);
   });
@@ -46,7 +46,7 @@ module('Unit | Reads/Writes | Batcher', function() {
       assert.step('First read');
     });
 
-    await settled();
+    await domBatchingSettled();
 
     assert.verifySteps(['First read', 'Second work']);
   });
@@ -74,14 +74,8 @@ module('Unit | Reads/Writes | Batcher', function() {
       assert.step('Third write');
     });
 
-    await settled();
+    await domBatchingSettled();
 
-    assert.verifySteps([
-      'First read',
-      'Second read',
-      'First write',
-      'Second write',
-      'Third write',
-    ]);
+    assert.verifySteps(['First read', 'Second read', 'First write', 'Second write', 'Third write']);
   });
 });

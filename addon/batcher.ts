@@ -1,14 +1,11 @@
 import { join } from '@ember/runloop';
 import { buildWaiter, ITestWaiter, Token } from 'ember-test-waiters';
 
-type MaybeRequestAnimationFrame = (
-  callback: FrameRequestCallback | Function
-) => number;
+type MaybeRequestAnimationFrame = (callback: FrameRequestCallback | Function) => number;
 
 const SCHEDULE_MACROTASK = (callback: Function) => setTimeout(callback);
 const scheduleFn: MaybeRequestAnimationFrame =
-  typeof window === 'object' &&
-  typeof window.requestAnimationFrame === 'function'
+  typeof window === 'object' && typeof window.requestAnimationFrame === 'function'
     ? window.requestAnimationFrame
     : SCHEDULE_MACROTASK;
 const waiter: ITestWaiter = buildWaiter('ember-batcher waiter');
@@ -45,11 +42,22 @@ function run(): void {
   }
 }
 
-export function readDOM(callback: Function): void {
-  reads.unshift(callback);
+/**
+ * Provides a mechanism to group DOM reads to minimize layout thrashing.
+ *
+ * @param readTask The function to call as part of the reads batch.
+ */
+export function readDOM(readTask: Function): void {
+  reads.unshift(readTask);
   run();
 }
-export function mutateDOM(callback: Function): void {
-  mutations.unshift(callback);
+
+/**
+ * Provides a mechanism to group DOM mutations to minimize layout thrashing.
+ *
+ * @param mutationTask The function to call as part of the mutations batch.
+ */
+export function mutateDOM(mutationTask: Function): void {
+  mutations.unshift(mutationTask);
   run();
 }

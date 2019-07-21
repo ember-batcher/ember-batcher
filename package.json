@@ -20,12 +20,19 @@
   "scripts": {
     "build": "ember build",
     "lint:hbs": "ember-template-lint .",
-    "lint:js": "eslint .",
+    "lint:js": "eslint --ext ts,js .",
+    "lint:ts": "tsc -p tsconfig.json --noEmit",
     "start": "ember serve",
     "test": "ember test",
     "test:all": "ember try:each",
     "prepublishOnly": "ember ts:precompile",
     "postpublish": "ember ts:clean"
+  },
+  "lint-staged": {
+    "package.json,{app,addon,config,tests}/**/*.{js,json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "ember-cli-babel": "^7.7.3",
@@ -41,10 +48,11 @@
     "@types/ember__test-helpers": "^0.7.8",
     "@types/qunit": "^2.9.0",
     "@types/rsvp": "^4.0.3",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "~3.11.0",
     "ember-cli-dependency-checker": "^3.1.0",
-    "ember-cli-eslint": "^5.1.0",
     "ember-cli-htmlbars": "^3.0.1",
     "ember-cli-htmlbars-inline-precompile": "^2.1.0",
     "ember-cli-inject-live-reload": "^1.8.2",
@@ -62,9 +70,15 @@
     "ember-source-channel-url": "^1.1.0",
     "ember-try": "^1.0.0",
     "ember-welcome-page": "^4.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-ember": "^6.2.0",
     "eslint-plugin-node": "^9.0.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.1",
+    "lint-staged": "^9.2.0",
     "loader.js": "^4.7.0",
+    "prettier": "^1.18.2",
     "qunit-dom": "^0.8.4",
     "typescript": "^3.5.3"
   },
@@ -73,5 +87,10 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
