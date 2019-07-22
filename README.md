@@ -20,7 +20,7 @@ ember install ember-batcher
 
 ## Usage
 
-### `readDOM(callback)`
+### `readDOM(readTask: Function): void`
 
 Register a task function that will get batched with other "reads" and called on the next `requestAnimationFrame` (if supported). The method will be executed within either the current run loop or will create a new run loop if necessary.
 
@@ -37,7 +37,7 @@ export default MyComponent extends Component {
 }
 ```
 
-### `mutateDOM(callback)`
+### `mutateDOM(mutationTask: Function): void`
 
 Register a task function that will get batched with other "mutations" and before other "reads". The method will be called on the next `requestAnimationFrame` (if supported). The method will be executed within either the current run loop or will create a new run loop if necessary.
 
