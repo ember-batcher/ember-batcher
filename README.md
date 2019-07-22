@@ -34,7 +34,7 @@ export default MyComponent extends Component {
       // Perform DOM read
     });
   }
-});
+}
 ```
 
 ### `mutateDOM(callback)`
@@ -45,13 +45,13 @@ Register a task function that will get batched with other "mutations" and before
 import Component from '@ember/component';
 import { mutateDOM } from 'ember-batcher';
 
-export default Component.extend({
+export default MyComponent extends Component {
   foo() {
     mutateDOM(() => {
       // Perform DOM mutation
     });
   },
-});
+}
 ```
 
 ## Contributing
