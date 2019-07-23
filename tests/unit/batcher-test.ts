@@ -1,5 +1,5 @@
 import { module, test } from 'ember-qunit';
-import { domBatchingSettled } from 'ember-batcher/test-support';
+import { settled } from '@ember/test-helpers';
 import { readDOM, mutateDOM } from 'ember-batcher';
 
 module('Unit | Batcher', function() {
@@ -14,7 +14,7 @@ module('Unit | Batcher', function() {
       assert.step('Second read');
     });
 
-    await domBatchingSettled();
+    await settled();
 
     assert.verifySteps(['First read', 'Second read']);
   });
@@ -30,7 +30,7 @@ module('Unit | Batcher', function() {
       assert.step('Second work');
     });
 
-    await domBatchingSettled();
+    await settled();
 
     assert.verifySteps(['First work', 'Second work']);
   });
@@ -46,7 +46,7 @@ module('Unit | Batcher', function() {
       assert.step('First read');
     });
 
-    await domBatchingSettled();
+    await settled();
 
     assert.verifySteps(['First read', 'Second work']);
   });
@@ -74,7 +74,7 @@ module('Unit | Batcher', function() {
       assert.step('Third write');
     });
 
-    await domBatchingSettled();
+    await settled();
 
     assert.verifySteps(['First read', 'Second read', 'First write', 'Second write', 'Third write']);
   });
