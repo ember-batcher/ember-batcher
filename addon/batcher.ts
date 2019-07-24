@@ -1,4 +1,3 @@
-import { join } from '@ember/runloop';
 import { buildWaiter, ITestWaiter, Token } from 'ember-test-waiters';
 
 type MaybeRequestAnimationFrame = (callback: FrameRequestCallback | Function) => number;
@@ -20,24 +19,22 @@ function run(): void {
     running = true;
 
     scheduleFn(() => {
-      join(() => {
-        let i: number, l: number;
+      let i: number, l: number;
 
-        for (i = 0, l = reads.length; i < l; i++) {
-          reads.pop()!();
-        }
-        for (i = 0, l = mutations.length; i < l; i++) {
-          mutations.pop()!();
-        }
+      for (i = 0, l = reads.length; i < l; i++) {
+        reads.pop()!();
+      }
+      for (i = 0, l = mutations.length; i < l; i++) {
+        mutations.pop()!();
+      }
 
-        running = false;
+      running = false;
 
-        if (mutations.length > 0 || reads.length > 0) {
-          run();
-        }
+      if (mutations.length > 0 || reads.length > 0) {
+        run();
+      }
 
-        waiter.endAsync(token);
-      });
+      waiter.endAsync(token);
     });
   }
 }
