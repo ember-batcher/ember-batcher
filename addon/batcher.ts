@@ -8,9 +8,11 @@ const scheduleFn: MaybeRequestAnimationFrame =
     ? window.requestAnimationFrame
     : SCHEDULE_MACROTASK;
 const waiter: ITestWaiter = buildWaiter('ember-batcher waiter');
+const readDOMWaiter: ITestWaiter = buildWaiter('ember-batcher readDOM waiter');
+const mutateDOMWaiter: ITestWaiter = buildWaiter('ember-batcher mutateDOM waiter');
 
-const reads: Array<Function> = [];
-const mutations: Array<Function> = [];
+const reads: Array<[Token, Function]> = [];
+const mutations: Array<[Token, Function]> = [];
 let running: boolean = false;
 
 function run(): void {
@@ -22,11 +24,15 @@ function run(): void {
       let i: number, l: number;
 
       for (i = 0, l = reads.length; i < l; i++) {
-        reads.pop()!();
+        let [token, readTask] = reads.pop()!;
+        readTask();
+        readDOMWaiter.endAsync(token);
       }
       for (i = 0, l = mutations.length; i < l; i++) {
-        mutations.pop()!();
-      }
+        let [token, mutateTask] = mutations.pop()!;
+        mutateTask();
+        mutateDOMWaiter.endAsync(token);
+       }
 
       running = false;
 
@@ -45,7 +51,9 @@ function run(): void {
  * @param readTask The function to call as part of the reads batch.
  */
 export function readDOM(readTask: Function): void {
-  reads.unshift(readTask);
+  let token = readDOMWaiter.beginAsync();
+
+  reads.unshift([token, readTask]);
   run();
 }
 
@@ -55,6 +63,8 @@ export function readDOM(readTask: Function): void {
  * @param mutationTask The function to call as part of the mutations batch.
  */
 export function mutateDOM(mutationTask: Function): void {
-  mutations.unshift(mutationTask);
+  let token = mutateDOMWaiter.beginAsync();
+
+  mutations.unshift([token, mutationTask]);
   run();
 }
