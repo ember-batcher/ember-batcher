@@ -2,7 +2,6 @@ import { module, test } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
 import { readDOM, mutateDOM } from 'ember-batcher';
 import { getPendingWaiterState, ITestWaiterDebugInfo } from 'ember-test-waiters';
-import { assert } from '@ember/debug';
 
 module('Unit | Batcher', function() {
   test('it runs reads', async function(assert: Assert) {
@@ -89,7 +88,11 @@ module('Unit | Batcher', function() {
     let pendingWaiters = getPendingWaiterState();
 
     assert.equal(pendingWaiters.pending, 2);
-    assert.ok((<ITestWaiterDebugInfo[]>pendingWaiters.waiters['ember-batcher readDOM waiter'])[0].stack!.indexOf('readDOM') > -1);
+    assert.ok(
+      (<ITestWaiterDebugInfo[]>(
+        pendingWaiters.waiters['ember-batcher readDOM waiter']
+      ))[0].stack!.indexOf('readDOM') > -1
+    );
 
     await settled();
   });
@@ -102,7 +105,11 @@ module('Unit | Batcher', function() {
     let pendingWaiters = getPendingWaiterState();
 
     assert.equal(pendingWaiters.pending, 2);
-    assert.ok((<ITestWaiterDebugInfo[]>pendingWaiters.waiters['ember-batcher mutateDOM waiter'])[0].stack!.indexOf('mutateDOM') > -1);
+    assert.ok(
+      (<ITestWaiterDebugInfo[]>(
+        pendingWaiters.waiters['ember-batcher mutateDOM waiter']
+      ))[0].stack!.indexOf('mutateDOM') > -1
+    );
 
     await settled();
   });

@@ -32,7 +32,7 @@ function run(): void {
         let [token, mutateTask] = mutations.pop()!;
         mutateTask();
         mutateDOMWaiter.endAsync(token);
-       }
+      }
 
       running = false;
 
