@@ -7,7 +7,6 @@ const scheduleFn: MaybeRequestAnimationFrame =
   typeof window === 'object' && typeof window.requestAnimationFrame === 'function'
     ? window.requestAnimationFrame
     : SCHEDULE_MACROTASK;
-const waiter: ITestWaiter = buildWaiter('ember-batcher waiter');
 const readDOMWaiter: ITestWaiter = buildWaiter('ember-batcher readDOM waiter');
 const mutateDOMWaiter: ITestWaiter = buildWaiter('ember-batcher mutateDOM waiter');
 
@@ -17,7 +16,6 @@ let running: boolean = false;
 
 function run(): void {
   if (!running) {
-    let token: Token = waiter.beginAsync();
     running = true;
 
     scheduleFn(() => {
@@ -39,8 +37,6 @@ function run(): void {
       if (mutations.length > 0 || reads.length > 0) {
         run();
       }
-
-      waiter.endAsync(token);
     });
   }
 }
