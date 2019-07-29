@@ -1,17 +1,18 @@
 import { buildWaiter, ITestWaiter, Token } from 'ember-test-waiters';
 
 type MaybeRequestAnimationFrame = (callback: FrameRequestCallback | Function) => number;
+type DomOperation = [Token, () => void];
 
 const SCHEDULE_MACROTASK = (callback: Function) => setTimeout(callback);
 const scheduleFn: MaybeRequestAnimationFrame =
   typeof window === 'object' && typeof window.requestAnimationFrame === 'function'
     ? window.requestAnimationFrame
     : SCHEDULE_MACROTASK;
-const readDOMWaiter: ITestWaiter = buildWaiter('ember-batcher readDOM waiter');
-const mutateDOMWaiter: ITestWaiter = buildWaiter('ember-batcher mutateDOM waiter');
+const readDOMWaiter: ITestWaiter = buildWaiter('ember-batcher: readDOM');
+const mutateDOMWaiter: ITestWaiter = buildWaiter('ember-batcher: mutateDOM');
 
-const reads: Array<[Token, Function]> = [];
-const mutations: Array<[Token, Function]> = [];
+const reads: Array<DomOperation> = [];
+const mutations: Array<DomOperation> = [];
 let running: boolean = false;
 
 function run(): void {
@@ -46,7 +47,7 @@ function run(): void {
  *
  * @param readTask The function to call as part of the reads batch.
  */
-export function readDOM(readTask: Function): void {
+export function readDOM(readTask: () => void): void {
   let token = readDOMWaiter.beginAsync();
 
   reads.unshift([token, readTask]);
@@ -58,7 +59,7 @@ export function readDOM(readTask: Function): void {
  *
  * @param mutationTask The function to call as part of the mutations batch.
  */
-export function mutateDOM(mutationTask: Function): void {
+export function mutateDOM(mutationTask: () => void): void {
   let token = mutateDOMWaiter.beginAsync();
 
   mutations.unshift([token, mutationTask]);

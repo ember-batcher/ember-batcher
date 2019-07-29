@@ -83,15 +83,17 @@ module('Unit | Batcher', function() {
   test('waiter is correctly wired up for readDOM', async function(assert: Assert) {
     function foo() {}
 
+    assert.equal(getPendingWaiterState.length, 0, 'precond - no pending waiters before readDOM');
+
     readDOM(foo);
 
     let pendingWaiters = getPendingWaiterState();
 
-    assert.equal(pendingWaiters.pending, 2);
+    assert.equal(pendingWaiters.pending, 1);
     assert.ok(
-      (<ITestWaiterDebugInfo[]>(
-        pendingWaiters.waiters['ember-batcher readDOM waiter']
-      ))[0].stack!.indexOf('readDOM') > -1
+      (<ITestWaiterDebugInfo[]>pendingWaiters.waiters['ember-batcher: readDOM'])[0].stack!.indexOf(
+        'readDOM'
+      ) > -1
     );
 
     await settled();
@@ -100,14 +102,16 @@ module('Unit | Batcher', function() {
   test('waiter is correctly wired up for mutateDOM', async function(assert: Assert) {
     function foo() {}
 
+    assert.equal(getPendingWaiterState.length, 0, 'precond - no pending waiters before mutateDOM');
+
     mutateDOM(foo);
 
     let pendingWaiters = getPendingWaiterState();
 
-    assert.equal(pendingWaiters.pending, 2);
+    assert.equal(pendingWaiters.pending, 1);
     assert.ok(
       (<ITestWaiterDebugInfo[]>(
-        pendingWaiters.waiters['ember-batcher mutateDOM waiter']
+        pendingWaiters.waiters['ember-batcher: mutateDOM']
       ))[0].stack!.indexOf('mutateDOM') > -1
     );
 
