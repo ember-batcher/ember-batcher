@@ -1,6 +1,7 @@
 import { module, test } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
 import { readDOM, mutateDOM } from 'ember-batcher';
+import { getPendingWaiterState, ITestWaiterDebugInfo } from 'ember-test-waiters';
 
 module('Unit | Batcher', function() {
   test('it runs reads', async function(assert: Assert) {
@@ -77,5 +78,43 @@ module('Unit | Batcher', function() {
     await settled();
 
     assert.verifySteps(['First read', 'Second read', 'First write', 'Second write', 'Third write']);
+  });
+
+  test('waiter is correctly wired up for readDOM', async function(assert: Assert) {
+    function foo() {}
+
+    assert.equal(getPendingWaiterState.length, 0, 'precond - no pending waiters before readDOM');
+
+    readDOM(foo);
+
+    let pendingWaiters = getPendingWaiterState();
+
+    assert.equal(pendingWaiters.pending, 1);
+    assert.ok(
+      (<ITestWaiterDebugInfo[]>pendingWaiters.waiters['ember-batcher: readDOM'])[0].stack!.indexOf(
+        'readDOM'
+      ) > -1
+    );
+
+    await settled();
+  });
+
+  test('waiter is correctly wired up for mutateDOM', async function(assert: Assert) {
+    function foo() {}
+
+    assert.equal(getPendingWaiterState.length, 0, 'precond - no pending waiters before mutateDOM');
+
+    mutateDOM(foo);
+
+    let pendingWaiters = getPendingWaiterState();
+
+    assert.equal(pendingWaiters.pending, 1);
+    assert.ok(
+      (<ITestWaiterDebugInfo[]>(
+        pendingWaiters.waiters['ember-batcher: mutateDOM']
+      ))[0].stack!.indexOf('mutateDOM') > -1
+    );
+
+    await settled();
   });
 });
