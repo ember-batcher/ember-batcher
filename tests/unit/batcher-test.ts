@@ -102,7 +102,11 @@ module('Unit | Batcher', function() {
   test('waiter is correctly wired up for mutateDOM', async function(assert: Assert) {
     function foo() {}
 
-    assert.equal(getPendingWaiterState().pending, 0, 'precond - no pending waiters before mutateDOM');
+    assert.equal(
+      getPendingWaiterState().pending,
+      0,
+      'precond - no pending waiters before mutateDOM'
+    );
 
     mutateDOM(foo);
 
