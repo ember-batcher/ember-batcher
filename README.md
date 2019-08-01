@@ -54,6 +54,29 @@ export default MyComponent extends Component {
 }
 ```
 
+### Reads, then Writes
+
+Since the purpose of this addon is to minimize layout thrashing, we want to perform _all_ *reads* before we perform *writes*. Additionally, we want to encourage closing over values created during the *read* phase that are used in the *write* phase. This helps ensure that work doesn't leak outside of the frame we're performing the work in. 
+
+Example of *read* first, then *write*.
+
+```js
+import Component from '@ember/component';
+import { readDOM, mutateDOM } from 'ember-batcher';
+
+export default MyComponent extends Component {
+  foo() {
+    readDOM(() => {
+      const width = element.clientWidth;
+      
+      mutateDOM(() => {
+        this.set('width', width * 2);
+      });
+    });
+  },
+}
+```
+
 ## Contributing
 
 See the [Contributing](CONTRIBUTING.md) guide for details.
