@@ -72,7 +72,11 @@ export default MyComponent extends Component {
       const width = element.clientWidth;
       
       mutateDOM(() => {
-        this.set('width', width * 2);
+        // we should perform our update conditionally, only if the value of width changes. This helps
+        // minimize unnecessary layout thrashing.
+        if (this.width !== width) {
+          this.set('width', width * 2);
+        }
       });
     });
   },
