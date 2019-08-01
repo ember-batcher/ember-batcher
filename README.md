@@ -56,7 +56,9 @@ export default MyComponent extends Component {
 
 ### Reads, then Writes
 
-Since the purpose of this addon is to minimize layout thrashing, we want to perform _all_ *reads* before we perform *writes*. Additionally, we want to encourage closing over values created during the *read* phase that are used in the *write* phase. This helps ensure that work doesn't leak outside of the frame we're performing the work in. 
+Since the purpose of this addon is to minimize layout thrashing, we want to perform _all_ *reads* before we perform *writes*. Additionally, you should close over values created during the *read* phase that are used in the *write* phase. This helps ensure that work doesn't leak outside of the frame we're performing the work in, and allows you to prepare values in the *read* phase that are used in the subsequent *write* phase. 
+
+To be clear, *writes* should not occur during the *reads* phase, therefore you should not have any code that performs any reads from within the callback of `readDOM`. All *writes* should occur inside a call to `mutateDOM`, whether that's in a non-nested call to `_mutateDOM` itself, or from a `nested` call to `mutateDOM` inside of a `readDOM` call.
 
 Example of *read* first, then *write*.
 
