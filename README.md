@@ -1,6 +1,10 @@
 # ember-batcher
 
-[![Build Status](https://travis-ci.com/ember-batcher/ember-batcher.svg?branch=master)](https://travis-ci.com/ember-batcher/ember-batcher) [![npm version](https://badge.fury.io/js/ember-batcher.svg)](https://badge.fury.io/js/ember-batcher)
+[![Build Status](https://travis-ci.com/ember-batcher/ember-batcher.svg?branch=master)](https://travis-ci.com/ember-batcher/ember-batcher)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-batcher.svg)](https://emberobserver.com/addons/ember-batcher)
+[![npm version](https://badge.fury.io/js/ember-batcher.svg)](https://badge.fury.io/js/ember-batcher)
+[![Monthly Downloads from NPM](https://img.shields.io/npm/dm/ember-batcher.svg?style=flat-square)](https://www.npmjs.com/package/ember-batcher)
+[![Code Style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](#badge)
 
 An Ember addon to batch DOM reads and mutations using `requestAnimationFrame`.
 
@@ -56,11 +60,11 @@ export default MyComponent extends Component {
 
 ### Reads, then Writes
 
-Since the purpose of this addon is to minimize layout thrashing, we want to perform _all_ *reads* before we perform *writes*. Additionally, you should close over values created during the *read* phase that are used in the *write* phase. This helps ensure that work doesn't leak outside of the frame we're performing the work in, and allows you to prepare values in the *read* phase that are used in the subsequent *write* phase. 
+Since the purpose of this addon is to minimize layout thrashing, we want to perform _all_ _reads_ before we perform _writes_. Additionally, you should close over values created during the _read_ phase that are used in the _write_ phase. This helps ensure that work doesn't leak outside of the frame we're performing the work in, and allows you to prepare values in the _read_ phase that are used in the subsequent _write_ phase.
 
-To be clear, *writes* should not occur during the *reads* phase, therefore you should not have any code that performs any reads from within the callback of `readDOM`. All *writes* should occur inside a call to `mutateDOM`, whether that's in a non-nested call to `_mutateDOM` itself, or from a `nested` call to `mutateDOM` inside of a `readDOM` call.
+To be clear, _writes_ should not occur during the _reads_ phase, therefore you should not have any code that performs any reads from within the callback of `readDOM`. All _writes_ should occur inside a call to `mutateDOM`, whether that's in a non-nested call to `_mutateDOM` itself, or from a `nested` call to `mutateDOM` inside of a `readDOM` call.
 
-Example of *read* first, then *write*.
+Example of _read_ first, then _write_.
 
 ```js
 import Component from '@ember/component';
@@ -70,7 +74,7 @@ export default MyComponent extends Component {
   foo() {
     readDOM(() => {
       const width = element.clientWidth;
-      
+
       mutateDOM(() => {
         // we should perform our update conditionally, only if the value of width changes. This helps
         // minimize unnecessary layout thrashing.
