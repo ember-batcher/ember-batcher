@@ -7,26 +7,31 @@
     "viewport",
     "requestAnimationFrame"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ember-batcher/ember-batcher"
+  },
   "license": "MIT",
   "author": "",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lynchbomb/ember-batcher"
-  },
   "scripts": {
     "build": "ember build",
-    "lint:hbs": "ember-template-lint .",
     "lint": "eslint --ext ts,js .",
+    "lint:hbs": "ember-template-lint .",
     "lint:ts": "tsc -p tsconfig.json --noEmit",
+    "prepublishOnly": "ember ts:precompile",
+    "postpublish": "ember ts:clean",
     "start": "ember serve",
     "test": "ember test",
-    "test:all": "ember try:each",
-    "prepublishOnly": "ember ts:precompile",
-    "postpublish": "ember ts:clean"
+    "test:all": "ember try:each"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "package.json,{app,addon,config,tests}/**/*.{js,json}": [
@@ -80,17 +85,31 @@
     "loader.js": "^4.7.0",
     "prettier": "^1.18.2",
     "qunit-dom": "^0.8.4",
+    "release-it": "^12.2.1",
+    "release-it-lerna-changelog": "^1.0.3",
     "typescript": "^3.5.3"
   },
   "engines": {
     "node": "8.* || >= 10.*"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}",
+      "changelog": "git log --pretty=format:\"* %s (%h)\" --no-merges --perl-regexp --author=\"^((?!dependabot-preview).*)$\" ${latestTag}...HEAD"
+    },
+    "github": {
+      "release": true
     }
   }
 }
