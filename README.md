@@ -1,6 +1,6 @@
 # ember-batcher
 
-[![Build Status](https://travis-ci.com/ember-batcher/ember-batcher.svg?branch=master)](https://travis-ci.com/ember-batcher/ember-batcher)
+![CI Build](https://github.com/ember-batcher/ember-batcher/workflows/CI%20Build/badge.svg)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-batcher.svg)](https://emberobserver.com/addons/ember-batcher)
 [![npm version](https://badge.fury.io/js/ember-batcher.svg)](https://badge.fury.io/js/ember-batcher)
 [![Monthly Downloads from NPM](https://img.shields.io/npm/dm/ember-batcher.svg?style=flat-square)](https://www.npmjs.com/package/ember-batcher)
