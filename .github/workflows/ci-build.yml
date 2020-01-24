@@ -33,8 +33,6 @@ jobs:
         run: yarn lint:js
       - name: test
         run: yarn test
-      - name: test node
-        run: yarn test:node
 
   try-scenarios:
     name: ${{ matrix.ember-try-scenario }}
