@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "ember build",
-    "lint": "eslint --ext ts,js .",
+    "lint:js": "eslint --ext ts,js .",
     "lint:hbs": "ember-template-lint .",
     "lint:ts": "tsc -p tsconfig.json --noEmit",
     "prepublishOnly": "ember ts:precompile",
