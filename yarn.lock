@@ -3746,7 +3746,7 @@ ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.0.0-beta.7, ember-cli-babel@^6
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.11.0, ember-cli-babel@^7.4.1, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3:
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.11.0, ember-cli-babel@^7.4.1, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3:
   version "7.13.2"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.13.2.tgz#6b6f4d508cc3bb300c5711d3d02c59ba80f0f686"
   integrity sha512-VH2tMXaRFkbQEyVJnxUtAyta5bAKjtcLwJ4lStW/iRk/NIlNFNJh1uOd7uL9H9Vm0f4/xR7Mc0Q7ND9ezKOo+A==
@@ -4201,11 +4201,12 @@ ember-template-lint@^1.1.0:
     strip-bom "^3.0.0"
 
 ember-test-waiters@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ember-test-waiters/-/ember-test-waiters-1.0.0.tgz#6990daed15a31e4593dc153a33a20668f76abe5c"
-  integrity sha512-0VP7oTTur/wm2///9EuMwg1/6KP6yRAamyP7DaiYfrY1js1vHtZU2fDPgjwuL0QL4FG1chyUiL/Gi3+dIaqQmA==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ember-test-waiters/-/ember-test-waiters-1.2.0.tgz#c12ead4313934c24cff41857020cacdbf8e6effe"
+  integrity sha512-aEw7YuutLuJT4NUuPTNiGFwgTYl23ThqmBxSkfFimQAn+keWjAftykk3dlFELuhsJhYW/S8YoVjN0bSAQRLNtw==
   dependencies:
-    ember-cli-babel "^7.1.2"
+    ember-cli-babel "^7.11.0"
+    semver "^6.3.0"
 
 ember-try-config@^3.0.0:
   version "3.0.0"
