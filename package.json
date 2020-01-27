@@ -1,6 +1,6 @@
 {
   "name": "ember-batcher",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Ember addon providing requestAnimationFrame utilities to properly batch reads/writes within Embers runloop.",
   "keywords": [
     "ember-addon",
