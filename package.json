@@ -42,7 +42,7 @@
   "dependencies": {
     "ember-cli-babel": "^7.7.3",
     "ember-cli-typescript": "^2.0.2",
-    "ember-test-waiters": "^1.0.0"
+    "ember-test-waiters": "^2.0.0"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.7.0",
