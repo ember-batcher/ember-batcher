@@ -12,10 +12,11 @@ const mutateDOMWaiter: ITestWaiter = buildWaiter('ember-batcher: mutateDOM');
 
 const reads: Array<DomOperation> = [];
 const mutations: Array<DomOperation> = [];
+let visibilityChange: Function = () => {};
 let running: boolean = false;
 let scheduleFnExecuted: boolean = false;
 
-const racedRAF = (callback: Function) => {
+const rafRace = (callback: Function) => {
   setTimeout(() => {
     if (!scheduleFnExecuted) {
       callback();
@@ -30,25 +31,27 @@ const racedRAF = (callback: Function) => {
 
 const scheduleFn: MaybeRequestAnimationFrame =
   typeof window === 'object' && typeof window.requestAnimationFrame === 'function'
-    ? racedRAF
+    ? rafRace
     : SCHEDULE_MACROTASK;
 
-export const visibilityChange = (
-  hidden = IS_BROWSER ? document.hidden : false,
-  hasQueuedWork = () => reads.length > 0 && mutations.length > 0
-) => {
-  return () => {
-    if (hidden && hasQueuedWork()) {
-      throw new Error(
-        "Your browser tab is running in the background. ember-batcher's execution is not guaranteed in this environment"
-      );
-    }
+if (DEBUG && IS_BROWSER) {
+  visibilityChange = (
+    hidden: boolean = document.hidden,
+    hasQueuedWork: Function = () => reads.length > 0 && mutations.length > 0
+  ) => {
+    return () => {
+      if (hidden && hasQueuedWork()) {
+        throw new Error(
+          "Your browser tab is running in the background. ember-batcher's execution is not guaranteed in this environment"
+        );
+      }
+    };
   };
-};
 
-if (DEBUG && typeof document === 'object') {
   document.addEventListener('visibilitychange', visibilityChange());
 }
+
+export { visibilityChange };
 
 function run(): void {
   if (!running) {
