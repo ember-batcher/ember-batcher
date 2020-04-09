@@ -1,9 +1,16 @@
 import { module, test } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
 import { readDOM, mutateDOM } from 'ember-batcher';
+import { visibilityChange } from 'ember-batcher/batcher';
 import { getPendingWaiterState, ITestWaiterDebugInfo } from 'ember-test-waiters';
 
 module('Unit | Batcher', function() {
+  test('it errors on background tabs', function(assert: Assert) {
+    assert.throws(() => {
+      visibilityChange(true, () => true)();
+    });
+  });
+
   test('it runs reads', async function(assert: Assert) {
     assert.expect(3);
 

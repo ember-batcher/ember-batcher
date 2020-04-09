@@ -1,19 +1,54 @@
-import { buildWaiter, ITestWaiter, Token } from 'ember-test-waiters';
+import { ITestWaiter, Token, buildWaiter } from 'ember-test-waiters';
+
+import { DEBUG } from '@glimmer/env';
 
 type MaybeRequestAnimationFrame = (callback: FrameRequestCallback | Function) => number;
 type DomOperation = [Token, () => void];
 
+const IS_BROWSER = typeof window === 'object' && typeof document === 'object';
 const SCHEDULE_MACROTASK = (callback: Function) => setTimeout(callback);
-const scheduleFn: MaybeRequestAnimationFrame =
-  typeof window === 'object' && typeof window.requestAnimationFrame === 'function'
-    ? window.requestAnimationFrame
-    : SCHEDULE_MACROTASK;
 const readDOMWaiter: ITestWaiter = buildWaiter('ember-batcher: readDOM');
 const mutateDOMWaiter: ITestWaiter = buildWaiter('ember-batcher: mutateDOM');
 
 const reads: Array<DomOperation> = [];
 const mutations: Array<DomOperation> = [];
 let running: boolean = false;
+let scheduleFnExecuted: boolean = false;
+
+const racedRAF = (callback: Function) => {
+  setTimeout(() => {
+    if (!scheduleFnExecuted) {
+      callback();
+    }
+  }, 20);
+
+  return requestAnimationFrame(() => {
+    scheduleFnExecuted = true;
+    callback();
+  });
+};
+
+const scheduleFn: MaybeRequestAnimationFrame =
+  typeof window === 'object' && typeof window.requestAnimationFrame === 'function'
+    ? racedRAF
+    : SCHEDULE_MACROTASK;
+
+export const visibilityChange = (
+  hidden = IS_BROWSER ? document.hidden : false,
+  hasQueuedWork = () => reads.length > 0 && mutations.length > 0
+) => {
+  return () => {
+    if (hidden && hasQueuedWork()) {
+      throw new Error(
+        "Your browser tab is running in the background. ember-batcher's execution is not guaranteed in this environment"
+      );
+    }
+  };
+};
+
+if (DEBUG && typeof document === 'object') {
+  document.addEventListener('visibilitychange', visibilityChange());
+}
 
 function run(): void {
   if (!running) {
