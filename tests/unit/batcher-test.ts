@@ -2,7 +2,7 @@ import { module, test } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
 import { readDOM, mutateDOM } from 'ember-batcher';
 import { visibilityChange } from 'ember-batcher/batcher';
-import { getPendingWaiterState, ITestWaiterDebugInfo } from 'ember-test-waiters';
+import { getPendingWaiterState, TestWaiterDebugInfo } from 'ember-test-waiters';
 
 module('Unit | Batcher', function() {
   test('it errors on background tabs', function(assert: Assert) {
@@ -98,7 +98,7 @@ module('Unit | Batcher', function() {
 
     assert.equal(pendingWaiters.pending, 1);
     assert.ok(
-      (<ITestWaiterDebugInfo[]>pendingWaiters.waiters['ember-batcher: readDOM'])[0].stack!.indexOf(
+      (<TestWaiterDebugInfo[]>pendingWaiters.waiters['ember-batcher: readDOM'])[0].stack!.indexOf(
         'readDOM'
       ) > -1
     );
@@ -121,9 +121,9 @@ module('Unit | Batcher', function() {
 
     assert.equal(pendingWaiters.pending, 1);
     assert.ok(
-      (<ITestWaiterDebugInfo[]>(
-        pendingWaiters.waiters['ember-batcher: mutateDOM']
-      ))[0].stack!.indexOf('mutateDOM') > -1
+      (<TestWaiterDebugInfo[]>pendingWaiters.waiters['ember-batcher: mutateDOM'])[0].stack!.indexOf(
+        'mutateDOM'
+      ) > -1
     );
 
     await settled();

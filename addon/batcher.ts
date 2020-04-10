@@ -1,4 +1,4 @@
-import { ITestWaiter, Token, buildWaiter } from 'ember-test-waiters';
+import { TestWaiter, Token, buildWaiter } from 'ember-test-waiters';
 
 import { DEBUG } from '@glimmer/env';
 
@@ -7,8 +7,8 @@ type DomOperation = [Token, () => void];
 
 const IS_BROWSER = typeof window === 'object' && typeof document === 'object';
 const SCHEDULE_MACROTASK = (callback: Function) => setTimeout(callback);
-const readDOMWaiter: ITestWaiter = buildWaiter('ember-batcher: readDOM');
-const mutateDOMWaiter: ITestWaiter = buildWaiter('ember-batcher: mutateDOM');
+const readDOMWaiter: TestWaiter = buildWaiter('ember-batcher: readDOM');
+const mutateDOMWaiter: TestWaiter = buildWaiter('ember-batcher: mutateDOM');
 
 const reads: Array<DomOperation> = [];
 const mutations: Array<DomOperation> = [];
