@@ -1,3 +1,15 @@
+## v4.0.0 (2020-04-10)
+
+#### :boom: Breaking Change
+* [#177](https://github.com/ember-batcher/ember-batcher/pull/177) Enabling support for detecting if the batcher is running in a background tab ([@scalvert](https://github.com/scalvert))
+
+#### :bug: Bug Fix
+* [#177](https://github.com/ember-batcher/ember-batcher/pull/177) Enabling support for detecting if the batcher is running in a background tab ([@scalvert](https://github.com/scalvert))
+
+#### Committers: 2
+- Steve Calvert ([@scalvert](https://github.com/scalvert))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v3.0.0 (2020-01-27)
 
 #### :boom: Breaking Change
