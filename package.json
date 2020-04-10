@@ -35,11 +35,11 @@
   },
   "lint-staged": {
     "package.json,{app,addon,config,tests}/**/*.{js,json}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "dependencies": {
+    "@glimmer/env": "^0.1.7",
     "ember-cli-babel": "^7.7.3",
     "ember-cli-typescript": "^2.0.2",
     "ember-test-waiters": "^1.0.0"
