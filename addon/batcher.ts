@@ -17,16 +17,16 @@ let running: boolean = false;
 let scheduleFnExecuted: boolean = false;
 
 const rafRace = (callback: Function) => {
-  setTimeout(() => {
+  let executeCallback = () => {
     if (!scheduleFnExecuted) {
+      scheduleFnExecuted = true;
       callback();
     }
-  }, 20);
+  };
 
-  return requestAnimationFrame(() => {
-    scheduleFnExecuted = true;
-    callback();
-  });
+  setTimeout(executeCallback, 20);
+
+  return requestAnimationFrame(executeCallback);
 };
 
 const scheduleFn: MaybeRequestAnimationFrame =
@@ -72,6 +72,7 @@ function run(): void {
       }
 
       running = false;
+      scheduleFnExecuted = false;
 
       if (mutations.length > 0 || reads.length > 0) {
         run();
