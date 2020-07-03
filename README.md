@@ -29,10 +29,10 @@ ember install ember-batcher
 Register a task function that will get batched with other "reads" and called on the next `requestAnimationFrame` (if supported). The method will be executed within either the current run loop or will create a new run loop if necessary.
 
 ```js
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { readDOM } from 'ember-batcher';
 
-export default MyComponent extends Component {
+export default class MyComponent extends Component {
   foo() {
     readDOM(() => {
       // Perform DOM read
@@ -46,10 +46,10 @@ export default MyComponent extends Component {
 Register a task function that will get batched with other "mutations" and before other "reads". The method will be called on the next `requestAnimationFrame` (if supported). The method will be executed within either the current run loop or will create a new run loop if necessary.
 
 ```js
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { mutateDOM } from 'ember-batcher';
 
-export default MyComponent extends Component {
+export default class MyComponent extends Component {
   foo() {
     mutateDOM(() => {
       // Perform DOM mutation
@@ -67,19 +67,23 @@ To be clear, _writes_ should not occur during the _reads_ phase, therefore you s
 Example of _read_ first, then _write_.
 
 ```js
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { readDOM, mutateDOM } from 'ember-batcher';
 
-export default MyComponent extends Component {
+export default class MyComponent extends Component {
+  @tracked
+  width;
+
   foo() {
     readDOM(() => {
-      const width = element.clientWidth;
+      const width = document.querySelector('.foo').clientWidth;
 
       mutateDOM(() => {
         // we should perform our update conditionally, only if the value of width changes. This helps
         // minimize unnecessary layout thrashing.
         if (this.width !== width) {
-          this.set('width', width * 2);
+          this.width = width * 2;
         }
       });
     });
