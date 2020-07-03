@@ -1,3 +1,5 @@
+* chore: Updating docs to fix errors (26e3c6e)
+
 * Fixing ember-test-waiters types (#179) (5024b27)
 
 ## v4.0.0 (2020-04-10)
