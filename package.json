@@ -90,7 +90,7 @@
     "typescript": "^3.5.3"
   },
   "engines": {
-    "node": "8.* || >= 10.*"
+    "node": "10.* || >= 12.*"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
