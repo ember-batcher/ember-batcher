@@ -2,7 +2,7 @@ import { module, test } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
 import { readDOM, mutateDOM } from 'ember-batcher';
 import { visibilityChange } from 'ember-batcher/batcher';
-import { getPendingWaiterState, TestWaiterDebugInfo } from 'ember-test-waiters';
+import { getPendingWaiterState, TestWaiterDebugInfo } from '@ember/test-waiters';
 
 module('Unit | Batcher', function() {
   test('it errors on background tabs', function(assert: Assert) {

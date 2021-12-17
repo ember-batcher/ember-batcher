@@ -1,4 +1,4 @@
-import { TestWaiter, Token, buildWaiter } from 'ember-test-waiters';
+import { TestWaiter, Token, buildWaiter } from '@ember/test-waiters';
 
 import { DEBUG } from '@glimmer/env';
 
