@@ -3,8 +3,8 @@ name: CI
 on:
   push:
     branches:
-      - main
       - master
+      - 'v*'
   pull_request: {}
 
 concurrency:
@@ -27,8 +27,8 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Lint
         run: yarn lint
-      - name: Run Tests
-        run: yarn test:ember
+      - name: Test
+        run: yarn test
 
   floating:
     name: "Floating Dependencies"
