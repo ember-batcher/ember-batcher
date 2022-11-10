@@ -52,6 +52,8 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.6.0",
     "@embroider/test-setup": "^0.48.1",
+    "@glimmer/component": "^1.0.0",
+    "@glimmer/tracking": "^1.0.0",
     "@types/ember": "^3.1.0",
     "@types/ember-qunit": "^3.4.6",
     "@types/ember-test-helpers": "^1.0.5",
@@ -66,7 +68,6 @@
     "ember-cli": "~3.28.6",
     "ember-cli-dependency-checker": "^3.1.0",
     "ember-cli-htmlbars": "^5.7.2",
-    "ember-cli-htmlbars-inline-precompile": "^2.1.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-template-lint": "^1.0.0-beta.1",
@@ -105,6 +106,9 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "ember": {
+    "edition": "octane"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
