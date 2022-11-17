@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'dummy',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'history',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

@@ -12,9 +12,9 @@ As noted in Paul Irish's "[What Forces Layout](https://gist.github.com/paulirish
 
 ## Compatibility
 
-- Ember.js v3.8 or above
-- Ember CLI v2.13 or above
-- Node.js v10 or above
+* Ember.js v3.24 or above
+* Ember CLI v3.24 or above
+* Node.js v14 or above
 
 ## Installation
 
