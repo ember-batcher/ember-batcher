@@ -2,6 +2,19 @@
 
 * Fixing ember-test-waiters types (#179) (5024b27)
 
+
+## v5.0.0 (2022-11-17)
+
+#### :boom: Breaking Change
+* [#325](https://github.com/ember-batcher/ember-batcher/pull/325) Update to support Ember 3.28 and 4.4 ([@mikrostew](https://github.com/mikrostew))
+* [#222](https://github.com/ember-batcher/ember-batcher/pull/222) Updating ember-try versions ([@scalvert](https://github.com/scalvert))
+* [#217](https://github.com/ember-batcher/ember-batcher/pull/217) Drop support for Node 8 ([@scalvert](https://github.com/scalvert))
+
+#### Committers: 3
+- Michael Stewart ([@mikrostew](https://github.com/mikrostew))
+- Steve Calvert ([@scalvert](https://github.com/scalvert))
+- Travis Hoover ([@thoov](https://github.com/thoov))
+
 ## v4.0.0 (2020-04-10)
 
 #### :boom: Breaking Change
